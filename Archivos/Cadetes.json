@@ -1,0 +1,66 @@
+{
+  "Nombre": "Mi Cadeteria",
+  "Telefono": "123456",
+  "ListadoCadetes": [
+    {
+      "Id": 1,
+      "Nombre": "Juan",
+      "Direccion": "San Mart\u00EDn 1",
+      "Telefono": "1111"
+    },
+    {
+      "Id": 2,
+      "Nombre": "Ana",
+      "Direccion": "Belgrano 2",
+      "Telefono": "2222"
+    }
+  ],
+  "ListadoPedidos": [
+    {
+      "Nro": 100,
+      "Obs": "Sin sal",
+      "Estado": 0,
+      "InfClientes": {
+        "Nombre": "Carlos",
+        "Direccion": "Bulnes 1028",
+        "Telefono": "381304",
+        "DatosReferenciaDireccion": null
+      },
+      "CadeteAsignado": null
+    },
+    {
+      "Nro": 0,
+      "Obs": "string",
+      "Estado": 0,
+      "InfClientes": {
+        "Nombre": "string",
+        "Direccion": "string",
+        "Telefono": "string",
+        "DatosReferenciaDireccion": "string"
+      },
+      "CadeteAsignado": {
+        "Id": 0,
+        "Nombre": "string",
+        "Direccion": "string",
+        "Telefono": "string"
+      }
+    },
+    {
+      "Nro": 120,
+      "Obs": "Luciano",
+      "Estado": 1,
+      "InfClientes": {
+        "Nombre": "Luciano",
+        "Direccion": "TOrres",
+        "Telefono": "string",
+        "DatosReferenciaDireccion": "string"
+      },
+      "CadeteAsignado": {
+        "Id": 0,
+        "Nombre": "string",
+        "Direccion": "string",
+        "Telefono": "string"
+      }
+    }
+  ]
+}

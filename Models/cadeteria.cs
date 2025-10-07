@@ -6,33 +6,20 @@ namespace cadeteria
     {
         private string nombre;
         private string telefono;
-        public List<Cadetes> listadoCadetes = new List<Cadetes>();
-        private List<Pedidos> ListadoPedidos = new List<Pedidos>();
+        private List<Cadetes> listadoCadetes = new List<Cadetes>();
+        private List<Pedidos> listadoPedidos = new List<Pedidos>();
 
 
         public string Nombre { get => nombre; set => nombre = value; }
         public string Telefono { get => telefono; set => telefono = value; }
-
+        public List<Cadetes> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
+        public List<Pedidos> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
         public Pedidos TomarPedido(string nombre, string direccion, string telefono, string referenciaDireccion, string observacion)
 
         {
-
-            int numero;
-
-
-            if (ListadoPedidos.Count() == 0)
-            {
-                numero = 1;
-            }
-            else
-            {
-                numero = ListadoPedidos.Last().Nro + 1;
-            }
-
+            int numero = listadoPedidos.Max(p => p.Nro) + 1;
             Cadetes cadete = null;
-
-
             Cliente cliente = new Cliente(nombre, direccion, telefono, referenciaDireccion);
 
             return new Pedidos(numero, observacion, cliente, cadete);
@@ -42,7 +29,7 @@ namespace cadeteria
 
         public int AsignarPedido(int idCadete, int idPedido)
         {
-            Cadetes cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Cadetes cadete = ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
             Pedidos pedido = ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
             if (cadete != null && pedido != null)
             {
@@ -54,17 +41,11 @@ namespace cadeteria
                 return 0;
             }
         }
-        public List<Pedidos> DarDeAlta(Pedidos pedido)
+        public string DarDeAlta(Pedidos pedido)
         {
-            if (pedido != null)
-            {
-                ListadoPedidos.Add(pedido);
-                return ListadoPedidos;
-            }
-            else
-            {
-                return null;
-            }
+            ListadoPedidos.Add(pedido);
+            return "Pedido completado sin asignar pedido";
+           
         }
 
         public string CambiarDeEstado(List<Pedidos> pedidos, int idPedido, int cambiarEstado)
@@ -158,7 +139,7 @@ namespace cadeteria
 
     montoGanado = enviosTotal * 500;
 
-    cantCadetes = listadoCadetes.Count();
+    cantCadetes = ListadoCadetes.Count();
 
     
     if (cantCadetes > 0)
@@ -177,7 +158,7 @@ namespace cadeteria
     informe += "== Detalle cadetes ==\n";
     informe += "ID|      Nombre      | Envios | Monto ganado\n";
 
-    foreach (var cadete in listadoCadetes)
+    foreach (var cadete in ListadoCadetes)
     {
         informe += cadete.Nombre + " | "
                  + CantEntregasCadete(cadete.Id) + " | "

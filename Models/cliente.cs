@@ -12,13 +12,17 @@ namespace cadeteria
         public string Telefono { get => telefono; set => telefono = value; }
         public string DatosReferenciaDireccion { get => datosReferenciaDireccion; set => datosReferenciaDireccion = value; }
 
-       public Cliente(string nombre, string direccion, string telefono, string referenciaDireccion)
-    {
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.DatosReferenciaDireccion = referenciaDireccion;
-    }
+        public Cliente()
+        { 
+            
+        }
+        public Cliente(string nombre, string direccion, string telefono, string datosReferenciaDireccion)
+        {
+            this.Nombre = nombre;
+            this.Direccion = direccion;
+            this.Telefono = telefono;
+            this.DatosReferenciaDireccion = datosReferenciaDireccion;
+        }
 
     }    
 }

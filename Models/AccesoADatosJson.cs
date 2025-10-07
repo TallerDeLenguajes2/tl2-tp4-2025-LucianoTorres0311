@@ -3,30 +3,31 @@ namespace cadeteria
 {
     public class AccesoADatosJSON : IAccesoADatos
     {
-        public List<Cadetes> CargarCadetes(string ruta)
+        private string _ruta;
+        public AccesoADatosJSON(string RutaArchivo)
         {
-            if (!File.Exists(ruta))
-            {
-                Console.WriteLine("El archivo JSON de cadetes no existe.");
-                return new List<Cadetes>();
-            }
-
-            string json = File.ReadAllText(ruta);
-            return JsonSerializer.Deserialize<List<Cadetes>>(json) ?? new List<Cadetes>();
+            _ruta = RutaArchivo;
+        }
+        public Cadeteria CargarCadetes()
+    {
+        if (!File.Exists(_ruta))
+        {
+            Console.WriteLine("No se encontró el archivo JSON");
+            return null;
         }
 
-        public Cadeteria CargarCadeteria(string ruta)
-        {
-            if (!File.Exists(ruta))
-            {
-                Console.WriteLine("El archivo JSON de cadetería no existe.");
-                return new Cadeteria();
-            }
+        string json = File.ReadAllText(_ruta);
 
-            string json = File.ReadAllText(ruta);
-            return JsonSerializer.Deserialize<Cadeteria>(json) ?? new Cadeteria();
+        Cadeteria cadeteria = JsonSerializer.Deserialize<Cadeteria>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        return cadeteria;
+    }
+        public void CargarCadeteria(Cadeteria cadeteria)
+        {
+            string json = JsonSerializer.Serialize(cadeteria, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_ruta, json);
+
+            Console.WriteLine("Datos guardados correctamente en JSON.");
         }
     }
-
-
 }

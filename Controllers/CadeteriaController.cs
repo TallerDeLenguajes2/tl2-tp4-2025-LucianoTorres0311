@@ -7,39 +7,60 @@ namespace cadeteria.Controllers;
 
 public class CadeteriaController : ControllerBase
 {
-    private Cadeteria cadeteria = new Cadeteria();
-    private AccesoADatos
-    [HttpGet]
-    public List<Pedidos> GetPedidos(string nombre, string direccion, string telefono, string referenciaDireccion, string observacion)
+    private readonly IAccesoADatos _accesoDatos;
+    private Cadeteria _cadeteria;
+
+    public CadeteriaController()
     {
-        var pedido = cadeteria.TomarPedido(nombre, direccion, telefono, referenciaDireccion, observacion);
-        return cadeteria.DarDeAlta(pedido);
+        _accesoDatos = new AccesoADatosJSON("Archivos/Cadetes.json");
+        _cadeteria = _accesoDatos.CargarCadetes();
     }
 
-    [HttpGet]
-    public List<Cadetes> GetCadetes()
+    [HttpGet("ObtenerPedidos")]
+    public IActionResult GetPedidos()
+    {
+        return Ok(_cadeteria.ListadoPedidos);
+    }
+
+    [HttpGet("ObtenerCadetes")]
+    public IActionResult GetCadetes()
+    {  
+        return Ok(_cadeteria);
+    }
+
+    [HttpGet("ObtenerInforme")]
+    public IActionResult GetInforme()
+    {
+        return Ok(_cadeteria.InformeJornada());
+    }
+
+    [HttpPost("AgregarPedido")]
+    public IActionResult AgregarPedido(Pedidos pedido)
     {
         
+        _cadeteria.DarDeAlta(pedido);
+        _accesoDatos.CargarCadeteria(_cadeteria);
+        return Ok(pedido);
     }
 
-    [HttpGet]
-    public Informe GetInforme()
+    [HttpPut("AsignarPedidos")]
+    public IActionResult Put(int IdPedido, int IdCadete)
     {
-        return new Informe();
+        
+        return Ok(_cadeteria.AsignarPedido(IdCadete, IdPedido));
     }
 
-    [HttpPost]
-    public List<Pedidos> PostAgregarPedido(Pedidos pedido)
+    [HttpPut("CambiarEstado")]
+
+    public IActionResult PutCambiarEstado(int IdPedido, int CambiarDeEstado)
     {
-        List<Pedidos> ListaPedidos = new List<Pedidos>();
-        ListaPedidos.Add(pedido);
-        return ListaPedidos;
-    }
 
-    [HttpPut]
-    public List<Cadetes> PutAsignarPedido()
-    { 
-
+        return Ok(_cadeteria.CambiarDeEstado(_cadeteria.ListadoPedidos, IdPedido, CambiarDeEstado));
     }
     
+    [HttpPut("CambiarCadete")]
+    public IActionResult PutCambiarCadete(int IdPedido,int IdCadete)
+    {
+        return Ok(_cadeteria.ReasignarPedido(_cadeteria.ListadoCadetes, _cadeteria.ListadoPedidos, _cadeteria, IdCadete, IdPedido));
+    }
 }

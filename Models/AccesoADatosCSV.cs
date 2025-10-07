@@ -2,14 +2,21 @@ namespace cadeteria
 {
     public class AccesoADatosCSV : IAccesoADatos
     {
-        public List<Cadetes> CargarCadetes(string ruta)
+        private string _ruta;
+        public AccesoADatosCSV(string RutaArchivo)
         {
-            var listadoCadetes = new List<Cadetes>();
-            int telAux;
-
-            if (File.Exists(ruta))
+            _ruta = RutaArchivo;
+        }
+        public Cadeteria CargarCadetes()
+        {
+            
+            
+            Cadeteria _cadeteria = new Cadeteria();
+            if (File.Exists(_ruta))
             {
-                string[] lineas = File.ReadAllLines(ruta);
+
+                string[] lineas = File.ReadAllLines(_ruta);
+                string[] cadeteriaData = File.ReadAllLines(_ruta);
                 for (int i = 1; i < lineas.Length; i++)
                 {
                     string[] datos = lineas[i].Split(';');
@@ -18,10 +25,10 @@ namespace cadeteria
                     string nombre = datos[1];
                     string direccion = datos[2];
                     string telefono = datos[3];
-                    int.TryParse(telefono, out telAux);
 
-                    Cadetes cadete = new Cadetes(id, nombre, direccion, telAux);
-                    listadoCadetes.Add(cadete);
+                    Cadetes cadete = new Cadetes(id, nombre, direccion, telefono);
+
+                    _cadeteria.ListadoCadetes.Add(cadete);
                 }
             }
             else
@@ -29,29 +36,12 @@ namespace cadeteria
                 Console.WriteLine("El archivo CSV de cadetes no existe.");
             }
 
-            return listadoCadetes;
+            return _cadeteria;
         }
 
-        public Cadeteria CargarCadeteria(string ruta)
+        public void CargarCadeteria(Cadeteria cadeteria)
         {
-            Cadeteria cadeteria = new Cadeteria();
-
-            if (File.Exists(ruta))
-            {
-                string[] lineas = File.ReadAllLines(ruta);
-                for (int i = 1; i < lineas.Length; i++)
-                {
-                    string[] datos = lineas[i].Split(';');
-                    cadeteria.Nombre = datos[0];
-                    cadeteria.Telefono = datos[1];
-                }
-            }
-            else
-            {
-                Console.WriteLine("El archivo CSV de cadetería no existe.");
-            }
-
-            return cadeteria;
+            Console.WriteLine("El csv solo lectura");
         }
     }
 
